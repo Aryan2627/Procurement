@@ -1,0 +1,282 @@
+{
+  "companies": [
+    {
+      "id": "c1",
+      "name": "Acme Procurement Corp",
+      "industry": "Logistics",
+      "employees": 250,
+      "createdAt": "2026-06-08T16:29:00.163Z"
+    },
+    {
+      "id": "c2",
+      "name": "Nexis Tech Systems",
+      "industry": "Technology",
+      "employees": 50,
+      "createdAt": "2026-06-08T16:29:00.164Z"
+    }
+  ],
+  "users": [
+    {
+      "id": "u-buyer",
+      "name": "Alex Harrison",
+      "email": "buyer@procure.ai",
+      "role": "BUYER",
+      "companyId": "c1",
+      "createdAt": "2026-06-08T16:29:00.164Z"
+    },
+    {
+      "id": "u-vendor",
+      "name": "Sanjay Kumar",
+      "email": "vendor@procure.ai",
+      "role": "VENDOR",
+      "companyId": "c2",
+      "createdAt": "2026-06-08T16:29:00.164Z"
+    },
+    {
+      "id": "u-admin",
+      "name": "Sarah Connor",
+      "email": "admin@procure.ai",
+      "role": "ADMIN",
+      "companyId": "c1",
+      "createdAt": "2026-06-08T16:29:00.164Z"
+    }
+  ],
+  "vendors": [
+    {
+      "id": "v1",
+      "name": "TechCorp Solutions Inc.",
+      "contactPerson": "John Smith",
+      "email": "sales@techcorp.com",
+      "phone": "+1 555-0199",
+      "gstNumber": "29AAAAA1111A1Z1",
+      "panNumber": "AAAAA1111A",
+      "address": "128 Tech Blvd, San Francisco, CA",
+      "rating": 4.8,
+      "status": "APPROVED",
+      "documents": "doc_cert.pdf",
+      "companyId": "c2",
+      "createdAt": "2026-06-08T16:29:00.164Z"
+    },
+    {
+      "id": "v2",
+      "name": "Global Office Suppliers Ltd.",
+      "contactPerson": "Emily Davis",
+      "email": "emily@globaloffice.com",
+      "phone": "+1 555-0188",
+      "gstNumber": "29BBBBB2222B2Z2",
+      "panNumber": "BBBBB2222B",
+      "address": "45 Green Park, New York, NY",
+      "rating": 4.5,
+      "status": "APPROVED",
+      "documents": "iso_compliance.pdf",
+      "companyId": null,
+      "createdAt": "2026-06-08T16:29:00.164Z"
+    },
+    {
+      "id": "v3",
+      "name": "Alpha Security Systems",
+      "contactPerson": "Vikram Singh",
+      "email": "vikram@alphasec.in",
+      "phone": "+91 98765 43210",
+      "gstNumber": "07CCCCC3333C3Z3",
+      "panNumber": "CCCCC3333C",
+      "address": "102 Connaught Place, New Delhi",
+      "rating": 4.2,
+      "status": "APPROVED",
+      "documents": "pan_card.pdf",
+      "companyId": null,
+      "createdAt": "2026-06-08T16:29:00.164Z"
+    },
+    {
+      "id": "v4",
+      "name": "Apex Construction Group",
+      "contactPerson": "Mark Miller",
+      "email": "mark@apexconstruct.com",
+      "phone": "+1 555-0122",
+      "gstNumber": null,
+      "panNumber": null,
+      "address": "888 Industrial Ave, Houston, TX",
+      "rating": 3.9,
+      "status": "PENDING",
+      "documents": null,
+      "companyId": null,
+      "createdAt": "2026-06-08T16:29:00.164Z"
+    }
+  ],
+  "rfqs": [
+    {
+      "id": "rfq-1",
+      "title": "Office Laptops Upgrade Q3",
+      "description": "Procurement of 50 high-end Developer Laptops. Required specifications: 32GB RAM, 1TB SSD, 14-inch display, Intel Core i7 or M3 processor.",
+      "category": "Hardware",
+      "quantity": 50,
+      "budget": 75000,
+      "deadline": "2026-06-13T16:29:00.164Z",
+      "documents": "laptop_specs.docx",
+      "status": "PUBLISHED",
+      "buyerId": "u-buyer",
+      "selectedVendors": "v1,v2",
+      "createdAt": "2026-06-06T16:29:00.164Z"
+    },
+    {
+      "id": "rfq-2",
+      "title": "Enterprise Server Hosting Rack",
+      "description": "Server storage hosting cabinets, 42U Server Racks, Dual-input PDU, cable trays, and biometric locks setup.",
+      "category": "Infrastructure",
+      "quantity": 8,
+      "budget": 24000,
+      "deadline": "2026-06-18T16:29:00.164Z",
+      "documents": null,
+      "status": "PUBLISHED",
+      "buyerId": "u-buyer",
+      "selectedVendors": "v1,v3",
+      "createdAt": "2026-06-03T16:29:00.164Z"
+    },
+    {
+      "id": "rfq-3",
+      "title": "Q3 Office Stationery Supplies",
+      "description": "Bulk order of premium branded pens, notebooks, sticky notes, markers, and printer paper bundles.",
+      "category": "Office Supplies",
+      "quantity": 200,
+      "budget": 3500,
+      "deadline": "2026-06-07T16:29:00.164Z",
+      "documents": null,
+      "status": "CLOSED",
+      "buyerId": "u-buyer",
+      "selectedVendors": "v2",
+      "createdAt": "2026-05-27T16:29:00.164Z"
+    }
+  ],
+  "quotations": [
+    {
+      "id": "q-1",
+      "rfqId": "rfq-1",
+      "vendorId": "v1",
+      "price": 72000,
+      "tax": 3600,
+      "deliveryDate": "2026-06-22T16:29:00.164Z",
+      "documents": "quote_v1_laptops.pdf",
+      "status": "SUBMITTED",
+      "createdAt": "2026-06-07T16:29:00.164Z"
+    },
+    {
+      "id": "q-2",
+      "rfqId": "rfq-1",
+      "vendorId": "v2",
+      "price": 74500,
+      "tax": 2980,
+      "deliveryDate": "2026-06-18T16:29:00.164Z",
+      "documents": "quote_v2_laptops.pdf",
+      "status": "SUBMITTED",
+      "createdAt": "2026-06-07T04:29:00.164Z"
+    },
+    {
+      "id": "q-3",
+      "rfqId": "rfq-3",
+      "vendorId": "v2",
+      "price": 3200,
+      "tax": 160,
+      "deliveryDate": "2026-06-08T16:29:00.164Z",
+      "documents": "stationery_quote.pdf",
+      "status": "WON",
+      "createdAt": "2026-05-29T16:29:00.164Z"
+    }
+  ],
+  "auctions": [
+    {
+      "id": "auc-1",
+      "rfqId": "rfq-2",
+      "title": "Reverse Auction: Enterprise Server Rack Procurement",
+      "startTime": "2026-06-08T16:29:00.164Z",
+      "endTime": "2026-06-08T16:59:00.164Z",
+      "currentBid": 22800,
+      "minDecrement": 200,
+      "bids": "[{\"bidderName\":\"TechCorp Solutions Inc.\",\"amount\":24000,\"timestamp\":\"2026-06-08T16:19:00.164Z\"},{\"bidderName\":\"Alpha Security Systems\",\"amount\":23500,\"timestamp\":\"2026-06-08T16:20:40.164Z\"},{\"bidderName\":\"TechCorp Solutions Inc.\",\"amount\":23000,\"timestamp\":\"2026-06-08T16:22:20.164Z\"},{\"bidderName\":\"Alpha Security Systems\",\"amount\":22800,\"timestamp\":\"2026-06-08T16:24:00.164Z\"}]",
+      "status": "ACTIVE",
+      "createdAt": "2026-06-08T16:29:00.164Z"
+    }
+  ],
+  "purchaseOrders": [
+    {
+      "id": "po-1",
+      "poNumber": "PO-2026-0001",
+      "quotationId": "q-3",
+      "vendorId": "v2",
+      "buyerId": "u-buyer",
+      "totalPrice": 3360,
+      "tax": 160,
+      "deliveryDate": "2026-06-03T16:29:00.164Z",
+      "status": "COMPLETED",
+      "createdAt": "2026-05-30T16:29:00.164Z"
+    }
+  ],
+  "invoices": [
+    {
+      "id": "inv-1",
+      "purchaseOrderId": "po-1",
+      "invoiceNumber": "INV-GLOBAL-9092",
+      "amount": 3360,
+      "status": "PAID",
+      "documents": "invoice_global_office.pdf",
+      "uploadedById": "u-vendor",
+      "createdAt": "2026-06-04T16:29:00.164Z"
+    }
+  ],
+  "approvals": [
+    {
+      "id": "app-1",
+      "type": "RFQ",
+      "targetId": "rfq-1",
+      "currentLevel": "FINANCE",
+      "status": "PENDING",
+      "chainState": "{\"MANAGER\":{\"status\":\"APPROVED\",\"user\":\"Alex Harrison\",\"date\":\"2026-06-07T16:29:00.164Z\"},\"FINANCE\":{\"status\":\"PENDING\",\"user\":\"Finance Team\",\"date\":null},\"PROCUREMENT_HEAD\":{\"status\":\"PENDING\",\"user\":\"Procurement Head\",\"date\":null},\"ADMIN\":{\"status\":\"PENDING\",\"user\":\"Sarah Connor\",\"date\":null}}",
+      "createdAt": "2026-06-07T16:29:00.164Z",
+      "updatedAt": "2026-06-07T16:29:00.164Z"
+    }
+  ],
+  "notifications": [
+    {
+      "id": "n-1",
+      "userId": "u-buyer",
+      "message": "Vendor TechCorp Solutions Inc. submitted a bid for RFQ-1.",
+      "read": false,
+      "createdAt": "2026-06-08T15:29:00.164Z"
+    },
+    {
+      "id": "n-2",
+      "userId": "u-buyer",
+      "message": "Approval chain initiated for RFQ-1 Office Laptops Upgrade.",
+      "read": true,
+      "createdAt": "2026-06-07T16:29:00.164Z"
+    }
+  ],
+  "subscriptions": [
+    {
+      "id": "s-1",
+      "companyId": "c1",
+      "plan": "ENTERPRISE",
+      "interval": "ANNUAL",
+      "status": "ACTIVE",
+      "expiresAt": "2027-04-04T16:29:00.164Z",
+      "createdAt": "2026-06-08T16:29:00.164Z"
+    }
+  ],
+  "auditLogs": [
+    {
+      "id": "log-1",
+      "userId": "u-buyer",
+      "action": "CREATE_RFQ",
+      "details": "Created RFQ Office Laptops Upgrade Q3 (rfq-1)",
+      "ipAddress": "192.168.1.1",
+      "createdAt": "2026-06-06T16:29:00.164Z"
+    },
+    {
+      "id": "log-2",
+      "userId": "u-vendor",
+      "action": "SUBMIT_QUOTE",
+      "details": "Submitted Quote for RFQ-1 (price: 72000)",
+      "ipAddress": "192.168.1.25",
+      "createdAt": "2026-06-07T16:29:00.164Z"
+    }
+  ]
+}

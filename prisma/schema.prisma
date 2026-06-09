@@ -1,0 +1,183 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id             String          @id @default(uuid())
+  name           String?
+  email          String          @unique
+  passwordHash   String?
+  role           String          @default("BUYER") // ADMIN, BUYER, VENDOR
+  emailVerified  DateTime?
+  image          String?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  companyId      String?
+  company        Company?        @relation(fields: [companyId], references: [id])
+  rfqs           RFQ[]
+  purchaseOrders PurchaseOrder[]
+  invoices       Invoice[]
+  notifications  Notification[]
+  auditLogs      AuditLog[]
+}
+
+model Company {
+  id            String         @id @default(uuid())
+  name          String
+  industry      String?
+  employees     Int?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  users         User[]
+  vendors       Vendor[]
+  subscriptions Subscription[]
+}
+
+model Vendor {
+  id            String          @id @default(uuid())
+  name          String
+  contactPerson String
+  email         String          @unique
+  phone         String?
+  gstNumber     String?
+  panNumber     String?
+  address       String?
+  rating        Float           @default(0.0)
+  status        String          @default("PENDING") // PENDING, APPROVED, SUSPENDED
+  documents     String?         // Comma-separated files or JSON
+  companyId     String?
+  company       Company?        @relation(fields: [companyId], references: [id])
+  quotations    Quotation[]
+  purchaseOrders PurchaseOrder[]
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+}
+
+model RFQ {
+  id              String      @id @default(uuid())
+  title           String
+  description     String
+  category        String
+  quantity        Int
+  budget          Float
+  deadline        DateTime
+  documents       String?     // Comma-separated file paths/names
+  status          String      @default("DRAFT") // DRAFT, PUBLISHED, CLOSED
+  buyerId         String
+  buyer           User        @relation(fields: [buyerId], references: [id])
+  selectedVendors String?     // Comma-separated vendor IDs or JSON array
+  quotations      Quotation[]
+  auctions        Auction[]
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+}
+
+model Quotation {
+  id             String          @id @default(uuid())
+  rfqId          String
+  rfq            RFQ             @relation(fields: [rfqId], references: [id], onDelete: Cascade)
+  vendorId       String
+  vendor         Vendor          @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+  price          Float
+  tax            Float
+  deliveryDate   DateTime
+  documents      String?
+  status         String          @default("SUBMITTED") // SUBMITTED, WON, LOST
+  purchaseOrders PurchaseOrder[]
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+}
+
+model Auction {
+  id           String   @id @default(uuid())
+  rfqId        String
+  rfq          RFQ      @relation(fields: [rfqId], references: [id], onDelete: Cascade)
+  title        String
+  startTime    DateTime
+  endTime      DateTime
+  currentBid   Float
+  minDecrement Float
+  bids         String?  // JSON string containing bid history
+  status       String   @default("ACTIVE") // ACTIVE, COMPLETED
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model PurchaseOrder {
+  id           String    @id @default(uuid())
+  poNumber     String    @unique
+  quotationId  String
+  quotation    Quotation @relation(fields: [quotationId], references: [id])
+  vendorId     String
+  vendor       Vendor    @relation(fields: [vendorId], references: [id])
+  buyerId      String
+  buyer        User      @relation(fields: [buyerId], references: [id])
+  totalPrice   Float
+  tax          Float
+  deliveryDate DateTime
+  status       String    @default("PENDING") // PENDING, SENT, ACCEPTED, REJECTED, COMPLETED
+  invoices     Invoice[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model Invoice {
+  id              String        @id @default(uuid())
+  purchaseOrderId String
+  purchaseOrder   PurchaseOrder @relation(fields: [purchaseOrderId], references: [id])
+  invoiceNumber   String
+  amount          Float
+  status          String        @default("PENDING") // PENDING, APPROVED, PAID, REJECTED
+  documents       String?
+  uploadedById    String
+  uploadedBy      User          @relation(fields: [uploadedById], references: [id])
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+model Approval {
+  id           String   @id @default(uuid())
+  type         String   // RFQ, PO, INVOICE
+  targetId     String
+  currentLevel String   // MANAGER, FINANCE, PROCUREMENT_HEAD, ADMIN
+  status       String   @default("PENDING") // PENDING, APPROVED, REJECTED
+  chainState   String?  // JSON representation of level status details
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Subscription {
+  id        String   @id @default(uuid())
+  companyId String
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  plan      String   // STARTER, GROWTH, ENTERPRISE
+  interval  String   // MONTHLY, ANNUAL
+  status    String   @default("ACTIVE")
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  action    String
+  details   String?
+  ipAddress String?
+  createdAt DateTime @default(now())
+}
